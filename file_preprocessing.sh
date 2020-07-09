@@ -44,7 +44,7 @@ for exp in S0 S1 S2 S3 S4; do
            $exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc
         
         ### rechunk to make calculations faster
-        nccopy -c 'time/1,latitude/,longitude/' \
+        nccopy -c 'time/1,lat/,lon/' \
                $exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc \
                $exp'/'$var'/'DLEM_$exp'_'$var'.'nc
         
