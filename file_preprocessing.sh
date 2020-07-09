@@ -40,8 +40,8 @@ for exp in S0 S1 S2 S3 S4; do
         rm $exp'/'$var'/'ISBA_test3.nc
         rm $exp'/'$var'/'ISBA_test4.nc
 
-        mv exp'/'$var'/'DLEM_$exp'_'$var'.'nc \
-           exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc
+        mv $exp'/'$var'/'DLEM_$exp'_'$var'.'nc \
+           $exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc
         
         ### rechunk to make calculations faster
         nccopy -c 'time/1,latitude/,longitude/' \
@@ -54,8 +54,8 @@ done
 
 for exp in S0 S1 S2 S3 S4; do
     for var in nbp gpp ra rh fFire evapotrans cVeg; do
-        mv exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc \
-           exp'/'$var'/'LPX-Bern_$exp'_'$var'_'original.nc
+        mv $exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc \
+           $exp'/'$var'/'LPX-Bern_$exp'_'$var'_'original.nc
            
         ### reorder coordinates to make model readable for CDO 
         ncpdq -F -O -a time,latitude,longitude \
@@ -68,8 +68,8 @@ for exp in S0 S1 S2 S3 S4; do
                $exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc
     done
     for var in landCoverFrac lai; do
-        mv exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc \
-           exp'/'$var'/'LPX-Bern_$exp'_'$var'_'original.nc
+        mv $exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc \
+           $exp'/'$var'/'LPX-Bern_$exp'_'$var'_'original.nc
            
         ### reorder coordinates to make model readable for CDO
         ncpdq -F -O -a time,PFT,latitude,longitude \
