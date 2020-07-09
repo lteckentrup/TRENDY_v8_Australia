@@ -45,8 +45,8 @@ for exp in S0 S1 S2 S3 S4; do
         
         ### rechunk to make calculations faster
         nccopy -c 'time/1,PFT/,latitude/,longitude/' \
-               exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc \
-               exp'/'$var'/'DLEM_$exp'_'$var'.'nc
+               $exp'/'$var'/'DLEM_$exp'_'$var'_'original.nc \
+               $exp'/'$var'/'DLEM_$exp'_'$var'.'nc
         
         gunzip $exp'/'$var'/'VISIT_$exp'_'$var'.'nc.gz
     done
