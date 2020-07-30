@@ -82,3 +82,175 @@ for exp in S0 S1 S2 S3 S4; do
                $exp'/'$var'/'LPX-Bern_$exp'_'$var'.'nc
     done
 done
+
+mv S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc S3/landCoverFrac/CLM5.0_S3_landCoverFrac_old.nc
+ncrename -d ncl3,lon -d ncl2,lat -d ncl1,PFT -d ncl0,time \
+         S3/landCoverFrac/CLM5.0_S3_landCoverFrac_old.nc S3/landCoverFrac/test.nc
+cdo settaxis,1700-01-01,00:00,1month S3/landCoverFrac/test.nc \
+    S3/landCoverFrac/test1.nc
+cdo setgrid,S3/landCoverFrac/clm.txt S3/landCoverFrac/test1.nc \
+    S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+
+ncatted -O -a comment,global,a,c,"Land cover types:\n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 1: not vegetated \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 2: needleleaf_evergreen_temperate_tree \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 3: needleleaf_evergreen_boreal_tree	\n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 4: needleleaf_deciduous_boreal_tree	\n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 5: broadleaf_evergreen_tropical_tree \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 6: broadleaf_evergreen_temperate_tree \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 7: broadleaf_deciduous_tropical_tree \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 8: broadleaf_deciduous_temperate_tree	\n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 9: broadleaf_deciduous_boreal_tree \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 10: broadleaf_evergreen_shrub \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 11: broadleaf_deciduous_temperate_shrub \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 12: broadleaf_deciduous_boreal_shrub \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 13: c3_arctic_grass \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 14: c3_non-arctic_grass \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 15: c4_grass \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 16: c3_crop \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 17: c3_irrigated \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 18: temperate_corn \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 19: irrigated_temperate_corn \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 20: spring_wheat \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 21: irrigated_spring_wheat \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 22: winter_wheat (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 23: irrigated_winter_wheat (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 24: temperate_soybean \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 25: irrigated_temperate_soybean \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 26: barley (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 27: irrigated_barley (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 28: winter_barley (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 29: irrigated_winter_barley (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc                
+ncatted -O -a comment,global,a,c,"Level 30: rye (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 31: irrigated_rye (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 32: winter_rye (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 33: irrigated_winter_rye (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 34: cassava (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 35: irrigated_cassava (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 36: citrus (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 37: irrigated_citrus (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 38: cocoa (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 39: irrigated_cocoa (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 40: coffee (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 41: irrigated_coffee (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 42: cotton \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 43: irrigated_cotton \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 44: datepalm (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 45: irrigated_datepalm (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 46: foddergrass (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 47: irrigated_foddergrass (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 48: grapes (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 49: irrigated_grapes (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 50: groundnuts (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 51: irrigated_groundnuts (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 52: millet (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 53: irrigated_millet (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 54: oilpalm (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 55: irrigated_oilpalm (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 56: potatoes (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 57: irrigated_potatoes (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 58: pulses (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 59: irrigated_pulses (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 60: rapeseed (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 61: irrigated_rapeseed (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 62: rice \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 63: irrigated_rice \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 64: sorghum (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 65: irrigated_sorghum (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 66: sugarbeet (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 67: irrigated_sugarbeet (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 68: sugarcane \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 69: irrigated_sugarcane \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 70: sunflower (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 71: irrigated_sunflower (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 72: miscanthus (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 73: irrigated_miscanthus (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 74: switchgrass (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 75: irrigated_switchgrass (empty) \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc       
+ncatted -O -a comment,global,a,c,"Level 76: tropical_corn \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 77: irrigated_tropical_corn \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc 
+ncatted -O -a comment,global,a,c,"Level 78: tropical_soybean \n" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+ncatted -O -a comment,global,a,c,"Level 79: irrigated_tropical_soybean" \
+        S3/landCoverFrac/CLM5.0_S3_landCoverFrac.nc
+
+rm S3/landCoverFrac/test.nc
+rm S3/landCoverFrac/test1.nc
