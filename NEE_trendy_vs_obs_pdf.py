@@ -76,6 +76,7 @@ for a, s in zip(axes_pdf, sites):
     a.legend().set_visible(False)
     a.set_xlim([-0.2,0.2])
     a.set_ylim([0,48])
+
     if a == ax1:
         a.set_ylabel('Monthly \n KDE PD')
     else:
@@ -132,6 +133,7 @@ def boxplot(axis, site, temp_res):
         axis.set_xticklabels('')
     else:
         axis.set_xticklabels(labels=models, rotation=90, ha='center')
+        
     boxplot1 = boxplots['boxes'][0]
     boxplot1.set_facecolor('black')
     boxplot2 = boxplots['boxes'][1]
