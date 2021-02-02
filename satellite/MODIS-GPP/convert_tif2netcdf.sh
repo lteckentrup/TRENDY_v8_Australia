@@ -229,19 +229,19 @@ for year in {2001..2018..1}; do
     cdo mergetime netcdf/MODIS_GPP_${year}-10*.nc netcdf/MODIS_GPP_${year}-10.nc
     cdo mergetime netcdf/MODIS_GPP_${year}-11*.nc netcdf/MODIS_GPP_${year}-11.nc
     cdo mergetime netcdf/MODIS_GPP_${year}-12*.nc netcdf/MODIS_GPP_${year}-12.nc
-  
-  for month in {01..12..1}; do
-      cdo -b F64 monthsum netcdf/MODIS_GPP_${year}_${month}.nc \
-          netcdf/MODIS_GPP_${year}_${month}_monthsum.nc
-      cdo -b F64 remapycon,fine_grid.txt \
-          netcdf/MODIS_GPP_${year}_${month}_monthsum.nc \
-          netcdf/MODIS_GPP_${year}_${month}_remapycon.nc
-      cdo -b F64 sellonlatbox,112.25,153.75,-43.75,-9.75 \
-          netcdf/MODIS_GPP_${year}_${month}_remapycon.nc \
-          MODIS_GPP_${year}_${month}_australia.nc
 
-      rm netcdf/MODIS_GPP_${year}_${month}.nc
-      rm netcdf/MODIS_GPP_${year}_${month}_monthsum.nc
-      rm netcdf/MODIS_GPP_${year}_${month}_remapycon.nc
-   done   
+  for month in {01..12..1}; do
+      cdo -b F64 monsum netcdf/MODIS_GPP_${year}-${month}.nc \
+          netcdf/MODIS_GPP_${year}-${month}_monsum.nc
+      cdo -b F64 remapycon,fine_grid.txt \
+          netcdf/MODIS_GPP_${year}-${month}_monsum.nc \
+          netcdf/MODIS_GPP_${year}-${month}_remapycon.nc
+      cdo -b F64 sellonlatbox,112.25,153.75,-43.75,-9.75 \
+          netcdf/MODIS_GPP_${year}-${month}_remapycon.nc \
+          MODIS_GPP_${year}-${month}_australia.nc
+
+      rm netcdf/MODIS_GPP_${year}-${month}.nc
+      rm netcdf/MODIS_GPP_${year}-${month}_monsum.nc
+      rm netcdf/MODIS_GPP_${year}-${month}_remapycon.nc
+   done
 done
