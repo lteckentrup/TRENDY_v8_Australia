@@ -3,9 +3,9 @@ import numpy as np
 from netCDF4 import Dataset as open_ncfile
 import pandas as pd
 
-def ugh(period):
+def ugh(exp):
 
-    file = open_ncfile('../../S3/landCoverFrac/LPX-Bern_S3_landCoverFrac_original.nc')
+    file = open_ncfile('../../'+exp+'/landCoverFrac/LPX-Bern_'+exp+'_landCoverFrac_original.nc')
 
     lat = file.variables['latitude'][92:160]
     lon = file.variables['longitude'][584:668]
@@ -79,7 +79,7 @@ def ugh(period):
     ds['longitude'].attrs={'units':'degrees_east', 'long_name':'longitude',
                      'standard_name':'longitude', 'axis':'X'}
 
-    ds.to_netcdf('LPX-Bern_S3_landCoverFrac.nc',
+    ds.to_netcdf('LPX-Bern_'+exp+'_landCoverFrac.nc',
                  encoding={'latitude':{'dtype': 'double'},
                            'longitude':{'dtype': 'double'},
                            'time':{'dtype': 'double'},
@@ -104,5 +104,5 @@ def ugh(period):
                            'C4Past':{'dtype': 'float32'},
                            'UrbanBare':{'dtype': 'float32'}})
 
-
-ugh('2001-2002')
+ugh('S2')
+ugh('S3')
