@@ -143,32 +143,26 @@ def boxplot(var, season, ylabel, vegetation, veg_mask):
           a.axhline(linewidth=1, color='k', alpha = 0.5)
 
           boxplot1 = boxplots['boxes'][0]
-          boxplot1.set_facecolor('tab:blue')
           boxplot2 = boxplots['boxes'][1]
-          boxplot2.set_facecolor('tab:orange')
           boxplot3 = boxplots['boxes'][2]
-          boxplot3.set_facecolor('tab:green')
           boxplot4 = boxplots['boxes'][3]
-          boxplot4.set_facecolor('tab:red')
           boxplot5 = boxplots['boxes'][4]
-          boxplot5.set_facecolor('tab:purple')
           boxplot6 = boxplots['boxes'][5]
-          boxplot6.set_facecolor('tab:brown')
           boxplot7 = boxplots['boxes'][6]
-          boxplot7.set_facecolor('tab:pink')
           boxplot8 = boxplots['boxes'][7]
-          boxplot8.set_facecolor('tab:olive')
           boxplot9 = boxplots['boxes'][8]
-          boxplot9.set_facecolor('navy')
           boxplot10 = boxplots['boxes'][9]
-          boxplot10.set_facecolor('tab:cyan')
           boxplot11 = boxplots['boxes'][10]
-          boxplot11.set_facecolor('rosybrown')
           boxplot12 = boxplots['boxes'][11]
-          boxplot12.set_facecolor('gold')
           boxplot13 = boxplots['boxes'][12]
-          boxplot13.set_facecolor('purple')
 
+          boxplot_list = [boxplot1, boxplot2, boxplot3, boxplot4, boxplot5,
+                          boxplot6, boxplot7, boxplot8, boxplot9, boxplot10,
+                          boxplot11, boxplot12, boxplot13]
+
+          for bl, c in zip(boxplot_list, colours):
+              bl.set_facecolor(c)
+              
           if a in (ax1, ax2, ax3, ax4, ax5, ax6):
               a.set_xticklabels([])
           else:
