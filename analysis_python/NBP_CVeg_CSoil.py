@@ -82,14 +82,14 @@ df_NBP['mean-std'] = df_NBP['mean'] - df_NBP['std']
 df_NBP['year'] = np.arange(1901,2018)
 
 ax1.plot(df_NBP['year'], df_NBP['mean'],lw=3.0, ls="-",
-         label = 'TRENDY ensemble mean', alpha = 1, color = 'tab:green')
+         label='TRENDY ensemble mean', alpha = 1, color='tab:green')
 
 ax1.fill_between(df_NBP['year'], df_NBP['min'], df_NBP['max'],
-                 color =  'tab:green', alpha = 0.15, label = 'Model spread')
+                 color='tab:green', alpha=0.15, label='Model spread')
 
 ax1.set_ylim([-0.95,1.7])
 
-ax1.axhline(linewidth=2, color='k', alpha = 0.5)
+ax1.axhline(linewidth=2, color='k', alpha=0.5)
 ax1.legend(loc='upper left', ncol=1, fancybox=False, frameon=False, fontsize=12)
 
 ax1.set_ylabel('NBP [PgC yr-1]')
@@ -97,17 +97,16 @@ ax1.set_title('Annual NBP Australia')
 
 ## Cumulative sum individual models
 for mn, c in zip(model_names, colours):
-    ax2.plot(df_NBP['year'], df_NBP[mn].cumsum(), color = c,
-             lw = 2.0, label = mn)
-    ax3.plot(df_NBP['year'],df_CVeg[mn], color = c, lw = 2.0, label = mn)
-    ax4.plot(df_NBP['year'],df_CSoil[mn], color = c, lw = 2.0, label = mn)
+    ax2.plot(df_NBP['year'], df_NBP[mn].cumsum(), color=c, lw=2.0, label=mn)
+    ax3.plot(df_NBP['year'], df_CVeg[mn], color=c, lw=2.0, label=mn)
+    ax4.plot(df_NBP['year'], df_CSoil[mn], color=c, lw=2.0, label=mn)
 
 obs = mask('', 'Aboveground Biomass Carbon', total_mask, mn)
-ax3.plot(df_NBP['year'][-25:-6], obs, color = 'k', lw = 4.0, label = 'VOD')
+ax3.plot(df_NBP['year'][-25:-6], obs, color='k', lw=4.0, label='VOD')
 
 ax1.set_xticklabels([])
 
-ax2.axhline(linewidth=1, color='k', alpha = 0.5)
+ax2.axhline(linewidth=1, color='k', alpha=0.5)
 ax2.set_title('Cumulative NBP Australia')
 ax2.set_ylabel('Cumulative NBP [PgC]')
 ax2.set_xticklabels([])
@@ -119,9 +118,9 @@ ax3.set_ylabel('$\mathrm{C_{Veg}}$ [PgC]')
 ax4.set_title('Carbon stored in soil Australia')
 ax4.set_ylabel('$\mathrm{C_{Soil}}$ [PgC]')
 
-text(0.04, 1.02, 'a)', ha='center',transform=ax1.transAxes, fontsize = 14)
-text(0.04, 1.02, 'b)', ha='center',transform=ax2.transAxes, fontsize = 14)
-text(0.04, 1.02, 'c)', ha='center',transform=ax3.transAxes, fontsize = 14)
-text(0.04, 1.02, 'd)', ha='center',transform=ax4.transAxes, fontsize = 14)
+text(0.04, 1.02, 'a)', ha='center',transform=ax1.transAxes, fontsize=14)
+text(0.04, 1.02, 'b)', ha='center',transform=ax2.transAxes, fontsize=14)
+text(0.04, 1.02, 'c)', ha='center',transform=ax3.transAxes, fontsize=14)
+text(0.04, 1.02, 'd)', ha='center',transform=ax4.transAxes, fontsize=14)
 
 plt.show()
