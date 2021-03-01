@@ -114,34 +114,13 @@ for vegm, ax, t in zip(veg_masks, axes, titles):
     r12 = [x + width for x in r11]
     r13 = [x + width for x in r12]
 
-    rects1 = ax.bar(r1, cable_pop_list_effect, width, label='CABLE-POP',
-                    color='tab:blue')
-    rects2 = ax.bar(r2, class_ctem_list_effect, width, label='CLASS-CTEM',
-                    color='tab:orange')
-    rects3 = ax.bar(r3, clm_list_effect, width, label='CLM5.0',
-                    color='tab:green')
-    rects4 = ax.bar(r4, isam_list_effect, width, label='ISAM', color='tab:red')
-    rects5 = ax.bar(r5, isba_ctrip_list_effect, width, label='ISBA-CTRIP',
-                    color='tab:purple')
-    rects6 = ax.bar(r6, jsbach_list_effect, width, label='JSBACH',
-                    color='tab:brown')
-    rects7 = ax.bar(r7, jules_es_list_effect, width, label='JULES-ES',
-                    color='tab:pink')
-    rects8 = ax.bar(r8, lpx_list_effect, width, label='LPX-Bern',
-                    color='tab:olive')
-    rects9 = ax.bar(r9, ocn_list_effect, width, label='OCN', color='navy')
-    rects10 = ax.bar(r10, orchidee_list_effect, width, label='ORCHIDEE',
-                     color='tab:cyan')
-    rects11 = ax.bar(r11, orchidee_cnp_list_effect, width, label='ORCHIDEE-CNP',
-                     color='rosybrown')
-    rects12 = ax.bar(r12, sdgvm_list_effect, width, label='SDGVM', color='gold')
-    rects13 = ax.bar(r13, visit_list_effect, width, label='VISIT',
-                     color = 'purple')
+    position_list = [r1, r2, r3, r4, r5, r6, r7, r8, r9, r10, r11, r12, r13]
 
-    if ax == ax1:
-        for mn, el in zip(effect_list, model_names):
-            print(mn)
-            print(el)
+    for el, pl, mn, c in zip(effect_list, position_list, model_names, colours):
+            ax.bar(pl, el, width, label=mn, color=c)
+            if ax == ax1:
+                print(mn)
+                print(el)
 
     ax.set_title(t)
     ax.set_xticks([r + 6.5*width for r in range(len(cable_pop_list_effect))])
