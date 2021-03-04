@@ -29,7 +29,7 @@ f.close()
 def monthly_emissions(month, index):
     EF_CO2 = EFs[2,:]
 
-    start_year = 2001
+    start_year = 2003
     end_year   = 2019
 
     """
@@ -72,13 +72,13 @@ def monthly_emissions(month, index):
 
     return(CO2_table)
 
-month_names = ['January', 'February', 'March', 'April', 'May', 'June', 'July',
+month_names = ['Januar', 'February', 'March', 'April', 'May', 'June', 'July',
                'August', 'September', 'October', 'November', 'December']
 indices = [0,1,2,3,4,5,6,7,8,9,10,11]
 
 df = pd.DataFrame()
 for mn, i in zip(month_names, indices):
     CO2_table=monthly_emissions(mn, i)
-    df[mn]=CO2_table.flatten()
+    df[mn]=CO2_table.flatten()/1000
 
 df.to_csv('GFED4s_monthly.csv', index=False)
