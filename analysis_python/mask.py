@@ -33,46 +33,78 @@ titles = ['Total', 'Tropics', 'Savanna', 'Warm temperate', 'Cool temperate',
 veg_masks = [total_mask, tropics_mask, savanna_mask, warm_temperate_mask,
               cool_temperate_mask, mediterranean_mask, desert_mask]
 
-def mask(var, veg_mask, modelname):
-    if modelname == 'SDGVM':
-        if var == 'nbp':
-            data_model = nc.Dataset('../../TRENDY_v9/impact_analysis/S3/sh_year/'+
-                                    modelname+'_S3_'+var+
-                                    '_australia_annual_area_weighted.nc')
-        elif var == 'cVeg':
-            data_model = nc.Dataset('../../TRENDY_v9/'+var+'/sh_year/'+modelname+
-                                    '_S3_'+var+
-                                    '_australia_annual_area_weighted.nc')
-        elif var == 'cSoil':
-            data_model = nc.Dataset('../../TRENDY_v9/'+var+'/sh_year/'+modelname+
-                                    '_S3_'+var+
-                                    '_australia_annual_area_weighted.nc')
+def mask(time_res, exp, var, veg_mask, modelname):
+    if time_res == 'annual':
+        if modelname == 'SDGVM':
+            if var == 'nbp':
+                data_model = nc.Dataset('../../TRENDY_v9/impact_analysis/'+exp+
+                                        '/sh_year/'+modelname+'_'+exp+'_'+var+
+                                        '_australia_annual_area_weighted.nc')
+            elif var in ('cVeg', 'cSoil', 'npp', 'fFire'):
+                data_model = nc.Dataset('../../TRENDY_v9/'+var+'/sh_year/'+modelname+
+                                        '_'+exp+'_'+var+
+                                        '_australia_annual_area_weighted.nc')
 
-    else:
-        if var == 'nbp':
-            data_model = nc.Dataset('../impact_analysis/S3/sh_year/'+modelname+'_S3_'+
-                                    var+'_australia_annual_area_weighted.nc')
-        elif var == 'cVeg':
-            data_model = nc.Dataset('../'+var+'/sh_year/'+modelname+'_S3_'+var+
-                                    '_australia_annual_area_weighted.nc')
-        elif var == 'cSoil':
-            data_model = nc.Dataset('../'+var+'/sh_year/'+modelname+'_S3_'+var+
-                                    '_australia_annual_area_weighted.nc')
         else:
-            data_model = nc.Dataset('../../VOD/cVeg_1992-2012.nc')
+            if var == 'nbp':
+                data_model = nc.Dataset('../impact_analysis/'+exp+'/sh_year/'+
+                                        modelname+'_'+exp+'_'+var+
+                                        '_australia_annual_area_weighted.nc')
+            elif var in ('cVeg', 'cSoil', 'npp', 'fFire'):
+                data_model = nc.Dataset('../'+var+'/sh_year/'+modelname+'_'+exp+'_'+
+                                        var+'_australia_annual_area_weighted.nc')
+            elif var == 'Aboveground Biomass Carbon':
+                data_model = nc.Dataset('../../VOD/cVeg_1992-2012.nc')
+            elif var == 'co2fire':
+                data_model = nc.Dataset('../../CAMS_GFAS/sh_year/CMAS_GFAS_fFire_australia_annual_area_weighted.nc')
 
-    model = data_model.variables[var][:,:,:]
-    model_masked = np.ma.array(model, mask = model*veg_mask[np.newaxis,:,:])
+        if var =='fFire':
+            model = data_model.variables[var][-16:,:,:]
+        else:
+            model = data_model.variables[var][:,:,:]
+        model_masked = np.ma.array(model, mask = model*veg_mask[np.newaxis,:,:])
 
-    timeseries_model = []
+        timeseries_model = []
 
-    if var == 'Aboveground Biomass Carbon':
-        for i in range(0,19):
-            sum_model = model_masked[i,:,:].sum()
-            timeseries_model.append(sum_model)
-    else:
-        for i in range(0,117):
-            sum_model = model_masked[i,:,:].sum()
-            timeseries_model.append(sum_model)
+        if var == 'Aboveground Biomass Carbon':
+            for i in range(0,19):
+                sum_model = model_masked[i,:,:].sum()
+                timeseries_model.append(sum_model)
+        elif var in ('co2fire', 'fFire'):
+            for i in range(0,15):
+                sum_model = model_masked[i,:,:].sum()
+                timeseries_model.append(sum_model)
+        else:
+            for i in range(0,117):
+                sum_model = model_masked[i,:,:].sum()
+                timeseries_model.append(sum_model)
+
+    elif time_res == 'monthly':
+        if var == 'fFire':
+            if modelname == 'SDGVM':
+                data_model = nc.Dataset('../../TRENDY_v9/fFire/sh_year/'+
+                                        modelname+'_S3_'+var+
+                                        '_australia_monthly_area_weighted.nc')
+            else:
+                data_model = nc.Dataset('../fFire/sh_year/'+modelname+'_S3_'+
+                                        var+'_australia_monthly_area_weighted.nc')
+            model = data_model.variables[var][-192:,:,:]
+        else:
+            data_model = nc.Dataset('../../CAMS_GFAS/sh_year/CMAS_GFAS_fFire_australia_monthly_area_weighted.nc')
+            model = data_model.variables[var][:,:,:]
+
+        model_masked = np.ma.array(model, mask = model*veg_mask[np.newaxis,:,:])
+        timeseries_model = []
+
+        if var == 'prec':
+            for i in range(0,155):
+                sum_data = model_masked[i,:,:].sum()
+                sum_gridarea = gridarea_masked[:,:].sum()
+                mean_data = (sum_data/sum_gridarea)*10000000
+                timeseries_model.append(mean_data)
+        else:
+            for i in range(0,192):
+                sum_model = model_masked[i,:,:].sum()
+                timeseries_model.append(sum_model)
 
     return(timeseries_model)
