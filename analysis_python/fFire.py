@@ -33,8 +33,6 @@ ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,2,3)
 ax3 = fig.add_subplot(2,2,4)
 
-### Modelspread
-
 model_names = ['CLASS-CTEM', 'CLM5.0', 'ISBA-CTRIP', 'JSBACH', 'LPX-Bern',
                'SDGVM', 'VISIT', 'CAMS_GFAS', 'GFED4s']
 colours = ['tab:orange', 'tab:green', 'tab:purple', 'tab:brown', 'tab:olive',
@@ -64,6 +62,7 @@ GFED4s_annual = np.sum(GFED4s_monthly[6:-18].reshape(-1, 12), axis=1)
 df_monthly['GFED4s'] = GFED4s_monthly[:-12].tolist()
 df_annual['GFED4s'] = GFED4s_annual.tolist()
 
+print(df_monthly)
 df_annual['year'] = np.arange(2003,2018,1)
 
 axis2 = ax1.twinx()
@@ -81,9 +80,9 @@ for mn, c in zip(model_names, colours):
 
     ax3.plot(df_annual['year'], df_annual[mn],lw=2.0, ls="-", color=c, label=mn)
 
-xlabels = np.arange(2003,2019,1)
+xlabels = np.arange(2003,2020,1)
 
-ax1.set_xticks(np.arange(0, 169, step=12))
+ax1.set_xticks(np.arange(0, 204, step=12))
 ax1.set_xticklabels(xlabels)
 ax1.set_ylabel('$\mathrm{fFire_{trendy}}$ [PgC mon-1]')
 ax1.set_title('a) Monthly fire $\mathrm{CO_2}$ emissions')
@@ -96,29 +95,54 @@ ax2.set_ylabel('Probability density')
 ax2.set_title('b) Normalised monthly fire $\mathrm{CO_2}$ emissions')
 ax2.legend(loc='upper center', bbox_to_anchor=(1.1, -0.15), ncol=3)
 
-xlabels = np.arange(2003,2018,1)
+xlabels = np.arange(2003,2021,step=3)
+ax3.set_xticks(np.arange(2003,2021, step=3))
 ax3.set_ylabel('fFire [PgC yr-1]')
 ax3.set_xticklabels(xlabels)
 ax3.set_title('c) Annual fire $\mathrm{CO_2}$ emissions')
 
-rect1 = patches.Rectangle((18,-0.5),8,8,linewidth=1,edgecolor='tab:red',
+### El Nino 2002-2003
+rect1 = patches.Rectangle((0,-0.5),2,8,linewidth=1,edgecolor='tab:red',
                           facecolor='tab:red', alpha = 0.4)
-rect2 = patches.Rectangle((44,-0.5),5,8,linewidth=1,edgecolor='tab:red',
+### El Nino 2004-2005
+rect2 = patches.Rectangle((17,-0.5),8,8,linewidth=1,edgecolor='tab:red',
                           facecolor='tab:red', alpha = 0.4)
-rect3 = patches.Rectangle((78,-0.5),9,8,linewidth=1,edgecolor='tab:red',
+### El Nino 2006-2007
+rect3 = patches.Rectangle((44,-0.5),5,8,linewidth=1,edgecolor='tab:red',
                           facecolor='tab:red', alpha = 0.4)
-rect4 = patches.Rectangle((142,-0.5),19,8,linewidth=1,edgecolor='tab:red',
+### El Nino 2009-2010
+rect4 = patches.Rectangle((78,-0.5),9,8,linewidth=1,edgecolor='tab:red',
                           facecolor='tab:red', alpha = 0.4)
-rect5 = patches.Rectangle((34,-0.5),5,8,linewidth=1,edgecolor='tab:blue',
+### El Nino 2014-2016
+rect5 = patches.Rectangle((141,-0.5),19,8,linewidth=1,edgecolor='tab:red',
+                          facecolor='tab:red', alpha = 0.4)
+### El Nino 20018-2019
+rect6= patches.Rectangle((188,-0.5),4,8,linewidth=1,edgecolor='tab:red',
+                          facecolor='tab:red', alpha = 0.4)
+### La Nina 2005-2006
+rect7 = patches.Rectangle((34,-0.5),5,8,linewidth=1,edgecolor='tab:blue',
                           facecolor='tab:blue', alpha = 0.4)
-rect6 = patches.Rectangle((54,-0.5),12,8,linewidth=1,edgecolor='tab:blue',
+### La Nina 2007-2008
+rect8 = patches.Rectangle((53,-0.5),13,8,linewidth=1,edgecolor='tab:blue',
                           facecolor='tab:blue', alpha = 0.4)
-rect7 = patches.Rectangle((89,-0.5),22,8,linewidth=1,edgecolor='tab:blue',
+### La Nina 2008-2009
+rect9 = patches.Rectangle((70,-0.5),5,8,linewidth=1,edgecolor='tab:blue',
                           facecolor='tab:blue', alpha = 0.4)
-rect8 = patches.Rectangle((163,-0.5),5,8,linewidth=1,edgecolor='tab:blue',
+### La Nina 2010-2011
+rect10 = patches.Rectangle((89,-0.5),12,8,linewidth=1,edgecolor='tab:blue',
+                          facecolor='tab:blue', alpha = 0.4)
+### La Nina 2011-2012
+rect11 = patches.Rectangle((102,-0.5),10,8,linewidth=1,edgecolor='tab:blue',
+                          facecolor='tab:blue', alpha = 0.4)
+### La Nina 2016-2017
+rect12 = patches.Rectangle((163,-0.5),5,8,linewidth=1,edgecolor='tab:blue',
+                          facecolor='tab:blue', alpha = 0.4)
+### La Nina 2017-2018
+rect13 = patches.Rectangle((177,-0.5),7,8,linewidth=1,edgecolor='tab:blue',
                           facecolor='tab:blue', alpha = 0.4)
 
-patches = [rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8]
+patches = [rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8, rect9,
+           rect10, rect11, rect12, rect13]
 
 for p in patches:
     ax1.add_patch(p)
