@@ -10,8 +10,12 @@ from LCF_groups_corr import (
     LCF_groups,
     lcf_corr
     )
+from mask import (
+    model_names,
+    colours
+    )
 
-fig = plt.figure(figsize=(8,10.0))
+fig = plt.figure(figsize=(8,11.0))
 
 fig.subplots_adjust(hspace=0.2)
 fig.subplots_adjust(wspace=0.18)
@@ -34,16 +38,8 @@ ax4 = fig.add_subplot(3,2,4)
 ax5 = fig.add_subplot(3,2,5)
 ax6 = fig.add_subplot(3,2,6)
 
-colors = ['tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple',
-          'tab:brown', 'tab:pink', 'tab:olive', 'navy', 'tab:cyan', 'rosybrown',
-          'gold', 'purple']
-
-model_names = ['CABLE-POP', 'CLASS-CTEM', 'CLM5.0', 'ISAM', 'ISBA-CTRIP',
-               'JSBACH', 'JULES-ES', 'LPX-Bern', 'OCN', 'ORCHIDEE',
-               'ORCHIDEE-CNP', 'SDGVM', 'VISIT']
-
 def plot(carbon_var):
-    for c,mn in zip(colors,model_names):
+    for c,mn in zip(colours,model_names):
         if mn == 'CABLE-POP':
             ds_EVG, ds_DCD, ds_C3G, ds_C4G = LCF_groups(mn)
             ds_lcf = [ds_EVG, ds_DCD, ds_C3G, ds_C4G]
@@ -59,11 +55,13 @@ def plot(carbon_var):
             if mn in ('ISBA-CTRIP', 'JULES-ES', 'VISIT'):
                 sns.regplot(ds.where(ds>5).values.flatten(),
                             ds_cveg[carbon_var].values.flatten(),
-                            scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+                            scatter=True, color=c, ax=a, label=mn,
+                            scatter_kws={'s':1})
             else:
                 sns.regplot(ds.where(ds>0.05).values.flatten()*100, \
                             ds_cveg[carbon_var].values.flatten(),
-                            scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+                            scatter=True, color=c, ax=a, label=mn,
+                            scatter_kws={'s':1})
 
         if carbon_var == 'cVeg':
             title = 'C$_\mathrm{{Veg}}$ - C$_\mathrm{{Veg,ensmean}}$ [kgC m$^{-2}$]'
@@ -94,7 +92,7 @@ ax4.axhline(linewidth=1, color='k', alpha=0.5)
 ax5.axhline(linewidth=1, color='k', alpha=0.5)
 ax6.axhline(linewidth=1, color='k', alpha=0.5)
 
-ax3.legend(loc='upper center', bbox_to_anchor=(1.1, 2.7), ncol=4)
+ax3.legend(loc='upper center', bbox_to_anchor=(1.0, 2.75), ncol=4)
 # plt.subplot_tool()
 plt.show()
 # plt.savefig('CVeg_LCF.png', dpi=400)
