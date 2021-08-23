@@ -42,34 +42,43 @@ model_names = ['CABLE-POP', 'CLASS-CTEM', 'CLM5.0', 'ISAM', 'ISBA-CTRIP',
                'JSBACH', 'JULES-ES', 'LPX-Bern', 'OCN', 'ORCHIDEE',
                'ORCHIDEE-CNP', 'SDGVM', 'VISIT']
 
-for c,mn in zip(colors,model_names):
-    if mn == 'CABLE-POP':
-        ds_EVG, ds_DCD, ds_C3G, ds_C4G = LCF_groups(mn)
-        ds_lcf = [ds_EVG, ds_DCD, ds_C3G, ds_C4G]
-        axes = [ax1,ax2,ax3,ax4]
-    else:
-        ds_EVG, ds_DCD, ds_C3G, ds_C4G, ds_C3Crop, ds_C4Crop = LCF_groups(mn)
-        ds_lcf = [ds_EVG, ds_DCD, ds_C3G, ds_C4G, ds_C3Crop, ds_C4Crop]
-        axes = [ax1,ax2,ax3,ax4,ax5,ax6]
-
-    ds_cveg = lcf_corr(mn, 'cVeg')
-
-    for a,ds in zip(axes, ds_lcf):
-        if mn in ('ISBA-CTRIP', 'JULES-ES', 'VISIT'):
-            sns.regplot(ds.where(ds>5).values.flatten(),
-                        ds_cveg['cVeg'].values.flatten(),
-                        scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+def plot(carbon_var):
+    for c,mn in zip(colors,model_names):
+        if mn == 'CABLE-POP':
+            ds_EVG, ds_DCD, ds_C3G, ds_C4G = LCF_groups(mn)
+            ds_lcf = [ds_EVG, ds_DCD, ds_C3G, ds_C4G]
+            axes = [ax1,ax2,ax3,ax4]
         else:
-            sns.regplot(ds.where(ds>0.05).values.flatten()*100, \
-                        ds_cveg['cVeg'].values.flatten(),
-                        scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+            ds_EVG, ds_DCD, ds_C3G, ds_C4G, ds_C3Crop, ds_C4Crop = LCF_groups(mn)
+            ds_lcf = [ds_EVG, ds_DCD, ds_C3G, ds_C4G, ds_C3Crop, ds_C4Crop]
+            axes = [ax1,ax2,ax3,ax4,ax5,ax6]
+
+        ds_cveg = lcf_corr(mn, carbon_var)
+
+        for a,ds in zip(axes, ds_lcf):
+            if mn in ('ISBA-CTRIP', 'JULES-ES', 'VISIT'):
+                sns.regplot(ds.where(ds>5).values.flatten(),
+                            ds_cveg[carbon_var].values.flatten(),
+                            scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+            else:
+                sns.regplot(ds.where(ds>0.05).values.flatten()*100, \
+                            ds_cveg[carbon_var].values.flatten(),
+                            scatter=True, color=c, ax=a, label=mn, scatter_kws={'s':1})
+
+        if carbon_var == 'cVeg':
+            title = 'C$_\mathrm{{Veg}}$ - C$_\mathrm{{Veg,ensmean}}$ [kgC m$^{-2}$]'
+        elif carbon_var == 'cSoil':
+            title = 'C$_\mathrm{{Soil}}$ - C$_\mathrm{{Soil,ensmean}}$ [kgC m$^{-2}$]'
+        elif carbon_var == 'NBP':
+            title = 'NBP - NBP$_\mathrm{{ensmean}}$ [kgC m$^{-2}$]'
+
+        for a in (ax1,ax3,ax5):
+            a.set_ylabel(title)
+
+plot('cVeg')
 
 ax5.set_xlabel('Landcover Fraction')
 ax6.set_xlabel('Landcover Fraction')
-
-ax1.set_ylabel('C$_\mathrm{{Veg}}$ - C$_\mathrm{{Veg,ensmean}}$ [kgC m$^{-2}$]')
-ax3.set_ylabel('C$_\mathrm{{Veg}}$ - C$_\mathrm{{Veg,ensmean}}$ [kgC m$^{-2}$]')
-ax5.set_ylabel('C$_\mathrm{{Veg}}$ - C$_\mathrm{{Veg,ensmean}}$ [kgC m$^{-2}$]')
 
 ax1.set_title('Evergreen trees')
 ax2.set_title('Deciduous trees')
