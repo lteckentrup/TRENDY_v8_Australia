@@ -6,7 +6,7 @@ from pylab import text
 import matplotlib.gridspec as gridspec
 import seaborn as sns
 import xarray as xr
-from LCF import (
+from LCF_groups_corr import (
     LCF_groups,
     lcf_corr
     )
