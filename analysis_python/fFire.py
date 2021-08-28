@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 import pandas as pd
 from pylab import text
 import matplotlib.patches as patches
+from scipy.stats import pearsonr
 from matplotlib import gridspec
 from mask import (
     mask,
@@ -32,6 +33,8 @@ plt.rcParams['ytick.labelsize'] = 11
 ax1 = fig.add_subplot(2,1,1)
 ax2 = fig.add_subplot(2,2,3)
 ax3 = fig.add_subplot(2,2,4)
+
+### Modelspread
 
 model_names = ['CLASS-CTEM', 'CLM5.0', 'ISBA-CTRIP', 'JSBACH', 'LPX-Bern',
                'SDGVM', 'VISIT', 'CAMS_GFAS', 'GFED4s']
@@ -62,32 +65,48 @@ GFED4s_annual = np.sum(GFED4s_monthly[6:-18].reshape(-1, 12), axis=1)
 df_monthly['GFED4s'] = GFED4s_monthly[:-12].tolist()
 df_annual['GFED4s'] = GFED4s_annual.tolist()
 
-print(df_monthly)
+for m in model_names:
+    print(m)
+    print(df_monthly[m].mean())
+    print(df_monthly[m].std())
+    print(pearsonr(df_monthly['CAMS_GFAS'], df_monthly[m]))
+    print(pearsonr(df_annual['CAMS_GFAS'], df_annual[m]))
+    print(pearsonr(df_monthly['GFED4s'], df_monthly[m]))
+    print(pearsonr(df_annual['GFED4s'], df_annual[m]))
+
 df_annual['year'] = np.arange(2003,2018,1)
 
 axis2 = ax1.twinx()
 for mn, c in zip(model_names, colours):
     df_monthly[mn+'_scaled'] = (df_monthly[mn]-df_monthly[mn].min())/ \
                                (df_monthly[mn].max()-df_monthly[mn].min())
+    if mn in ('CABLE-POP', 'ISAM', 'JULES-ES', 'ORCHIDEE', 'VISIT'):
+        ls = '--'
+    elif mn in ('CLASS-CTEM', 'ISBA-CTRIP', 'LPX-Bern', 'ORCHIDEE-CNP',
+                'CAMS_GFAS', 'GFED4s'):
+        ls = '-'
+    else:
+        ls = '-.'
     if mn in ('CAMS_GFAS', 'GFED4s'):
         axis2.plot(df_monthly[mn], color=c, lw=2.0, label=mn)
         ax2 = df_monthly[mn+'_scaled'].plot.kde(ax=ax2, color=c, lw=3.0,
-                                                label=mn)
+                                                linestyle=ls, label=mn)
     else:
-        ax1.plot(df_monthly[mn], color=c, lw=2.0, label=mn)
+        ax1.plot(df_monthly[mn], color=c, lw=2.0, linestyle=ls, label=mn)
         ax2 = df_monthly[mn+'_scaled'].plot.kde(ax=ax2, color=c, lw=3.0,
-                                                label=mn)
+                                                linestyle=ls, label=mn)
 
-    ax3.plot(df_annual['year'], df_annual[mn],lw=2.0, ls="-", color=c, label=mn)
+    ax3.plot(df_annual['year'], df_annual[mn],lw=2.0, ls="-", color=c,
+             linestyle=ls, label=mn)
 
 xlabels = np.arange(2003,2020,1)
 
 ax1.set_xticks(np.arange(0, 204, step=12))
 ax1.set_xticklabels(xlabels)
-ax1.set_ylabel('$\mathrm{fFire_{trendy}}$ [PgC mon-1]')
+ax1.set_ylabel('$\mathrm{fFire_{trendy}}$ [PgC mon$^{-1}$]')
 ax1.set_title('a) Monthly fire $\mathrm{CO_2}$ emissions')
 
-axis2.set_ylabel('$\mathrm{fFire_{obs}}$ [PgC mon-1]')
+axis2.set_ylabel('$\mathrm{fFire_{obs}}$ [PgC mon$^{-1}$]')
 
 ax2.set_xlim([-0.2,1.6])
 ax2.set_xlabel('fFire [-]')
@@ -97,7 +116,7 @@ ax2.legend(loc='upper center', bbox_to_anchor=(1.1, -0.15), ncol=3)
 
 xlabels = np.arange(2003,2021,step=3)
 ax3.set_xticks(np.arange(2003,2021, step=3))
-ax3.set_ylabel('fFire [PgC yr-1]')
+ax3.set_ylabel('fFire [PgC yr$^{-1}$]')
 ax3.set_xticklabels(xlabels)
 ax3.set_title('c) Annual fire $\mathrm{CO_2}$ emissions')
 
@@ -147,5 +166,5 @@ patches = [rect1, rect2, rect3, rect4, rect5, rect6, rect7, rect8, rect9,
 for p in patches:
     ax1.add_patch(p)
 
-plt.show()
-# plt.savefig('fFire_S3_australia.pdf')
+# plt.show()
+plt.savefig('Fig7.pdf')
