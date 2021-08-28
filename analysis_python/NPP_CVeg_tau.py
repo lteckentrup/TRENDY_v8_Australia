@@ -46,8 +46,8 @@ time = np.arange(1901,2018)
 
 def tau(modelname):
 
-    NPP = mask('S3', 'npp', total_mask, mn)
-    CVeg = mask('S3', 'cVeg', total_mask, mn)
+    NPP = mask('annual', 'S3', 'npp', total_mask, mn)
+    CVeg = mask('annual', 'S3', 'cVeg', total_mask, mn)
 
     time = np.arange(1901,2018)
 
@@ -62,28 +62,36 @@ def tau(modelname):
     return(tau, tau_change)
 
 for mn, c in zip(model_names, colours):
-    NPP = mask('S3', 'npp', total_mask, mn)
+    NPP = mask('annual', 'S3', 'npp', total_mask, mn)
     NPP_change = NPP-(sum(NPP[:30])/len(NPP[:30]))
-    ax1.plot(time, NPP_change, color=c, lw=2.0, label=mn)
+
+    if mn in ('CABLE-POP', 'ISAM', 'JULES-ES', 'ORCHIDEE', 'VISIT'):
+        ls = '--'
+    elif mn in ('CLASS-CTEM', 'ISBA-CTRIP', 'LPX-Bern', 'ORCHIDEE-CNP'):
+        ls = '-'
+    else:
+        ls = '-.'
+
+    ax1.plot(time, NPP_change, color=c, lw=2.0, linestyle=ls, label=mn)
 
     TAU, TAU_change = tau(mn)
     df_TAU = pd.DataFrame(TAU, columns = [mn])
     ax2.plot(time[1:], df_TAU[mn].rolling(window=5, center=True).mean(),
-             color=c, linewidth=2.5, label=mn)
-    ax2.plot(time[1:], df_TAU [mn], color=c, alpha=0.2)
+             color=c, linewidth=2.5, linestyle=ls, label=mn)
+    ax2.plot(time[1:], df_TAU [mn], color=c, linestyle=ls, alpha=0.2)
 
     df_TAU_change = pd.DataFrame(TAU_change, columns=[mn])
     ax3.plot(time[1:], df_TAU_change[mn].rolling(window=5, center=True).mean(),
-             color=c, linewidth=2.5, label=mn, alpha=1)
-    ax3.plot(time[1:], df_TAU_change[mn], color=c, alpha=0.2)
+             color=c, linewidth=2.5, linestyle=ls, label=mn, alpha=1)
+    ax3.plot(time[1:], df_TAU_change[mn], color=c, linestyle=ls, alpha=0.2)
 
-    CVeg = mask('S3', 'cVeg', total_mask, mn)
+    CVeg = mask('annual', 'S3', 'cVeg', total_mask, mn)
     CVeg_change = CVeg-(sum(CVeg[:30])/len(CVeg[:30]))
-    ax4.plot(time, CVeg_change, color=c, lw=2.0, label=mn)
+    ax4.plot(time, CVeg_change, color=c, lw=2.0, linestyle=ls, label=mn)
 
 ax1.axhline(linewidth=1, color='k', alpha=0.5)
 ax1.set_xticklabels([])
-ax1.set_ylabel('$\mathrm{\Delta}$ NPP [PgC yr-1]')
+ax1.set_ylabel('$\mathrm{\Delta}$ NPP [PgC yr$^{-1}$]')
 ax1.set_title('$\mathrm{\Delta}$ NPP')
 
 ax2.set_xticklabels([])
@@ -105,5 +113,5 @@ text(0.04, 1.02, 'c)', ha='center',transform=ax3.transAxes, fontsize = 14)
 text(0.04, 1.02, 'd)', ha='center',transform=ax4.transAxes, fontsize = 14)
 
 #plt.subplot_tool()
-plt.show()
-# plt.savefig('cVeg_S3_australia_NPP_tau_loss.pdf')
+# plt.show()
+plt.savefig('Fig5.pdf')
