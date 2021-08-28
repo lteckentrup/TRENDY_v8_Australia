@@ -39,16 +39,18 @@ ax4 = fig.add_subplot(3,2,4)
 ax5 = fig.add_subplot(3,2,5)
 ax6 = fig.add_subplot(3,2,6)
 
-titles = ['Tropics', 'Warm temperate', 'Cool temperate', 'Mediterranean',
-          'Savanna', 'Desert']
+titles = ['Tropics', 'Warm temperate', 'Cool temperate', 'Savanna',
+          'Mediterranean', 'Desert']
 veg_masks = [tropics_mask, warm_temperate_mask, cool_temperate_mask,
-             mediterranean_mask, savanna_mask, desert_mask]
+             savanna_mask, mediterranean_mask, desert_mask]
+
 axes = [ax1, ax2, ax3, ax5, ax4, ax6]
 
 time = np.arange(1,13)
 idx = [6,7,8,9,10,11,0,1,2,3,4,5]
 
 for vegm, ax, t in zip(veg_masks, axes, titles):
+    print(t)
     annual_gosif = mask('seasonal', 'S3', 'GPP', vegm, 'GOSIF-GPP')
     annual_gosif_sd = mask('seasonal', 'S3', 'GPP_SD', vegm, 'GOSIF-GPP_SD')
 
@@ -64,11 +66,18 @@ for vegm, ax, t in zip(veg_masks, axes, titles):
 
     for mn, c in zip(model_names, colours):
         annual = mask('seasonal', 'S3', 'gpp', vegm, mn)
-        ax.plot(time, np.array(annual)[idx], color = c, lw = 2.0, label = mn)
+        if mn in ('CABLE-POP', 'ISAM', 'JULES-ES', 'ORCHIDEE', 'VISIT'):
+            ls = '--'
+        elif mn in ('CLASS-CTEM', 'ISBA-CTRIP', 'LPX-Bern', 'ORCHIDEE-CNP'):
+            ls = '-'
+        else:
+            ls = '-.'
+        ax.plot(time, np.array(annual)[idx], color = c, lw = 2.0,
+                linestyle = ls ,label = mn)
 
-    if ax in (ax4, ax6):
+    if ax in (ax5, ax6):
         ax.set_ylim([0,0.37])
-    elif ax in (ax3,ax5):
+    elif ax in (ax3,ax4):
         ax.set_ylim([0,0.1])
 
 xlabels = ['J', 'A', 'S', 'O', 'N', 'D', 'J', 'F', 'M', 'A','M', 'J']
@@ -78,12 +87,11 @@ for ax in (ax5, ax6):
 for ax in (ax1, ax2, ax3, ax4):
     ax.set_xticklabels([])
 
-ax1.set_ylabel('GPP [PgC mon-1]')
-ax3.set_ylabel('GPP [PgC mon-1]')
-ax5.set_ylabel('GPP [PgC mon-1]')
+ax1.set_ylabel('GPP [PgC mon$^{-1}$]')
+ax3.set_ylabel('GPP [PgC mon$^{-1}$]')
+ax5.set_ylabel('GPP [PgC mon$^{-1}$]')
 
 ax1.legend(loc='upper center', bbox_to_anchor=(1.1, -2.5), ncol=5, frameon = True)
 #plt.subplot_tool()
-plt.show()
-
-# plt.savefig('seasonal_GPP_australia_trendy_SDGVM_v9.pdf')
+# plt.show()
+plt.savefig('Fig4.pdf')
