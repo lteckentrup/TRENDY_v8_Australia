@@ -14,7 +14,7 @@ fig.subplots_adjust(hspace=0.25)
 fig.subplots_adjust(wspace=0.25)
 fig.subplots_adjust(right=0.98)
 fig.subplots_adjust(left=0.07)
-fig.subplots_adjust(bottom=0.05)
+fig.subplots_adjust(bottom=0.06)
 fig.subplots_adjust(top=0.9)
 
 plt.rcParams['text.usetex'] = False
@@ -69,6 +69,12 @@ colours = ['k', 'tab:blue', 'tab:orange', 'tab:green', 'tab:red', 'tab:purple',
 def pdf_wet(axes_list, var):
     for a, s in zip(axes_list, sites):
         for m, c in zip(models, colours):
+            if m in ('CABLE-POP', 'ISAM', 'JULES-ES', 'ORCHIDEE', 'VISIT'):
+                ls = '--'
+            elif m in ('CLASS-CTEM', 'ISBA-CTRIP', 'LPX-Bern', 'ORCHIDEE-CNP'):
+                ls = '-'
+            else:
+                ls = '-.'
             if m == 'SDGVM':
                 data = nc.Dataset(pathwayIN_SDGVM+'/'+var+'_'+m+'_'+s+'.nc')
             else:
@@ -94,7 +100,7 @@ def pdf_wet(axes_list, var):
                 elif m in ('JSBACH', 'VISIT') and s == 'AU-How':
                     pass
                 else:
-                    a = df_season.plot.kde(ax=a, color=c, lw=2.0)
+                    a = df_season.plot.kde(ax=a, color=c, linestyle=ls, lw=2.0)
 
             else:
                 if m in ('JSBACH', 'VISIT') and s == 'AU-How':
@@ -108,7 +114,7 @@ def pdf_wet(axes_list, var):
                 elif m in ('JSBACH', 'VISIT') and s == 'AU-How':
                     pass
                 else:
-                    a = df_season.plot.kde(ax=a, color=c, lw=2.0)
+                    a = df_season.plot.kde(ax=a, color=c, linestyle=ls, lw=2.0)
 
         a.legend().set_visible(False)
         a.set_ylabel('')
@@ -134,12 +140,12 @@ ax7.set_ylabel('AU-DaS \n (MAP = 1324 mm) \n \n Probability density')
 ax13.set_ylabel('AU-Dry \n (MAP = 925 mm) \n \n Probability density')
 ax19.set_ylabel('AU-Stp \n (MAP = 719 mm) \n \n Probability density')
 
-ax19.set_xlabel('NEE [gC mon-1 m-2]')
-ax20.set_xlabel('NEE [gC mon-1 m-2]')
-ax21.set_xlabel('GPP [gC mon-1 m-2]')
-ax22.set_xlabel('GPP [gC mon-1 m-2]')
-ax23.set_xlabel('TER [gC mon-1 m-2]')
-ax24.set_xlabel('TER [gC mon-1 m-2]')
+ax19.set_xlabel('NEE [gC mon$^{-1}$ m$^{-2}$]')
+ax20.set_xlabel('NEE [gC mon$^{-1}$ m$^{-2}$]')
+ax21.set_xlabel('GPP [gC mon$^{-1}$ m$^{-2}$]')
+ax22.set_xlabel('GPP [gC mon$^{-1}$ m$^{-2}$]')
+ax23.set_xlabel('TER [gC mon$^{-1}$ m$^{-2}$]')
+ax24.set_xlabel('TER [gC mon$^{-1}$ m$^{-2}$]')
 
 ax1.set_xlim([-150,150])
 ax2.set_xlim([-150,150])
@@ -206,4 +212,4 @@ for aw in axes_wet:
 for ad in axes_dry:
     ad.set_facecolor('#f1ccda')
 # plt.show()
-plt.savefig('pdf_wet_dry_SDGVM_v9.pdf')
+plt.savefig('Fig6.pdf')
